@@ -21,11 +21,13 @@
  */
 
 import {Pet} from '../pets/pet';
+import {Vet} from '../vets/vet';
 
 export interface Visit {
   id: number;
   date: string;
   description: string;
+  vet: Vet;
   pet: Pet;
   petId?: number;
 }

@@ -66,6 +66,17 @@
 
           </div>
         </div>
+        <div class="form-group has-feedback " [class.has-success]="vet.dirty && vet.valid" [class.has-error]="vet.dirty && !vet.valid">
+          <label class="col-sm-2 control-label">Veterinarian</label>
+          <div class="col-sm-3">
+            <select id="vet" name="vet" class="form-control" [(ngModel)]="visit.vet" #vet="ngModel" >
+                <option *ngFor="let vet of vets" value="{{ vet }}">{{ vet.firstName }} {{ vet.lastName }}</option>
+            </select>
+            <span class="glyphicon form-control-feedback" [class.glyphicon-ok]="vet.valid" [class.glyphicon-remove]="!vet.valid" aria-hidden="true"></span>
+            <span class="help-block" *ngIf="vet.dirty && vet.hasError('required')">Veterinarian is required</span>
+
+          </div>
+        </div>
 
       </div>
       <div class="form-group">

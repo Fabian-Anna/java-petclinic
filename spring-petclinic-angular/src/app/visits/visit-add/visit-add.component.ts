@@ -20,12 +20,14 @@
  * @author Vitaliy Fedoriv
  */
 
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Visit} from '../visit';
 import {VisitService} from '../visit.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PetService} from '../../pets/pet.service';
 import {Pet} from '../../pets/pet';
+import {Vet} from '../../vets/vet';
+import {VetService} from '../../vets/vet.service';
 import {PetType} from '../../pettypes/pettype';
 import {Owner} from '../../owners/owner';
 
@@ -38,8 +40,9 @@ import {OwnerService} from '../../owners/owner.service';
   styleUrls: ['./visit-add.component.css']
 })
 export class VisitAddComponent implements OnInit {
-
+  @Input() vets: Vet[];
   visit: Visit;
+  vet: Vet;
   currentPet: Pet;
   currentOwner: Owner;
   currentPetType: PetType;
@@ -50,8 +53,11 @@ export class VisitAddComponent implements OnInit {
               private petService: PetService,
               private ownerService: OwnerService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private vetService: VetService) {
     this.visit = {} as Visit;
+    this.vets = [];
+    this.vet = {} as Vet;
     this.currentPet = {} as Pet;
     this.currentOwner = {} as Owner;
     this.currentPetType = {} as PetType;
@@ -73,6 +79,9 @@ export class VisitAddComponent implements OnInit {
         )
       },
       error => this.errorMessage = error as any);
+      this.vetService.getVets().subscribe(
+          vets => this.vets.push(...vets),
+          error => this.errorMessage = error as any);
   }
 
   onSubmit(visit: Visit) {
